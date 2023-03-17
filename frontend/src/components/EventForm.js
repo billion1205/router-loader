@@ -86,6 +86,7 @@ function EventForm({ method, event }) {
 export default EventForm;
 
 export async function action({ request, params }) {
+
   const method = request.method;
   //formData에 await을 반드시 적어줘햐 한다.
   const data = await request.formData();
@@ -101,7 +102,6 @@ export async function action({ request, params }) {
   if(method==='PATCH'){
     const eventId=params.eventId;
     url='http://localhost:8080/events/'+eventId;
-    console.log(url);
   }
 
   const response = await fetch(url, {

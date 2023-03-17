@@ -1,26 +1,28 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/Home";
-import EditEventPage from "./pages/EditEvent";
-import RootLayout from "./pages/Root";
-import EventsRootLayout from "./pages/EventRoot";
-import ErrorPage from "./pages/Error";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import EditEventPage from './pages/EditEvent';
+import ErrorPage from './pages/Error';
 import EventDetailPage, {
   loader as eventDetailLoader,
-    action as deleteEventAction
-} from "./pages/EventDetail";
-import EventsPage, { loader as eventsLoader } from "./pages/Events";
-import NewEventPage from "./pages/NewEvent";
-import {action as manipulaateEventAction} from './components/EventForm';
+  action as deleteEventAction,
+} from './pages/EventDetail';
+import EventsPage, { loader as eventsLoader } from './pages/Events';
+import EventsRootLayout from './pages/EventRoot';
+import HomePage from './pages/Home';
+import NewEventPage from './pages/NewEvent';
+import RootLayout from './pages/Root';
+import { action as manipulateEventAction } from './components/EventForm';
+import NewsletterPage, { action as newsletterAction } from './pages/Newsletter';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <RootLayout />,
-    errorElement: <ErrorPage />, //자식에게서 에러가 생겨도 버블링되어 잡힌다.
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: "events",
+        path: 'events',
         element: <EventsRootLayout />,
         children: [
           {
@@ -29,16 +31,33 @@ const router = createBrowserRouter([
             loader: eventsLoader,
           },
           {
-            path: ":eventId", //주소자체만으로 부모로써 역할을 할뿐 자신의 콤포넌트는 불필요
-            id: "event-detail", //자식에게 loader를 전달해줄때 필요하다.
-            loader: eventDetailLoader, //loader는 자식주소 이동시에도 실행된다.
+            path: ':eventId',
+            id: 'event-detail',
+            loader: eventDetailLoader,
             children: [
-              { index: true, element: <EventDetailPage />,action: deleteEventAction},
-              { path: "edit", element: <EditEventPage /> ,action:manipulaateEventAction},
+              {
+                index: true,
+                element: <EventDetailPage />,
+                action: deleteEventAction,
+              },
+              {
+                path: 'edit',
+                element: <EditEventPage />,
+                action: manipulateEventAction,
+              },
             ],
           },
-          { path: "new", element: <NewEventPage />,action:manipulaateEventAction},
+          {
+            path: 'new',
+            element: <NewEventPage />,
+            action: manipulateEventAction,
+          },
         ],
+      },
+      {
+        path: 'newsletter',
+        element: <NewsletterPage />,
+        action: newsletterAction,
       },
     ],
   },
